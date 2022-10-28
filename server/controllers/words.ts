@@ -65,9 +65,11 @@ export const getWords = async (req: Request, res: Response) => {
 
     // sort the list randomly
     randomList.sort(() => Math.random() - 0.5);
-
+    
+    res.status(200);
     res.send(randomList);
   } catch (error) {
+    res.status(500);
     res.send({ status: "failed", message: "something went wrong" });
   }
 };
