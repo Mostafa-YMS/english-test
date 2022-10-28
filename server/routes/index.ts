@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import { getWords } from "../controllers/index";
+import { getWords } from "../controllers/words";
 
 export const serverRouter: Router = express.Router();
 
