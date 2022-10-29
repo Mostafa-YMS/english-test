@@ -31,6 +31,11 @@ const Practice = () => {
     getWords && getWords();
   }, [getWords]);
 
+  const toRank = () => {
+    localStorage.setItem("score", score);
+    navigate("/rank");
+  };
+
   const answerQuestion = ({ target }) => {
     if (target?.name === words[currentWord]?.pos) {
       setRightAnswer(true);
@@ -39,6 +44,8 @@ const Practice = () => {
       setRightAnswer(false);
     }
     setProgress((prev) => prev + 1);
+
+    progress === 9 && setTimeout(toRank, 2000);
   };
 
   const nextQuestion = () => {
@@ -46,11 +53,6 @@ const Practice = () => {
       setCurrentWord((prev) => prev + 1);
       setRightAnswer();
     }
-  };
-
-  const toRank = () => {
-    localStorage.setItem("score", score);
-    navigate("/rank");
   };
 
   return (
@@ -101,12 +103,6 @@ const Practice = () => {
           <div className="div-next">
             {typeof rightAnswer === "boolean" && currentWord !== 9 && (
               <button onClick={nextQuestion}>Next Question</button>
-            )}
-          </div>
-
-          <div className="div-next">
-            {rightAnswer !== undefined && currentWord === 9 && (
-              <button onClick={toRank}>Show Rank</button>
             )}
           </div>
         </div>
