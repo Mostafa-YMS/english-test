@@ -9,7 +9,7 @@
 ### - `Install modules`
 
     `yarn install` in client & server Install modules before running the app.
- 
+
 ### - `Run the project`
 
     Run the server in server folder `yarn run dev`
