@@ -1,17 +1,20 @@
 import { useCallback } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getWordsService } from "../../services";
 import "../../styles/practice.css";
 
 const wordPos = ["verb", "adverb", "noun", "adjective"];
 
 const Practice = () => {
+  const navigate = useNavigate();
   const [words, setWords] = useState();
   const [score, setScore] = useState(0);
   const [rightAnswer, setRightAnswer] = useState();
   const [loading, setLoading] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
+  const [progress, setProgress] = useState(0);
 
   const getWords = useCallback(async () => {
     try {
@@ -32,20 +35,37 @@ const Practice = () => {
     if (target?.name === words[currentWord]?.pos) {
       setRightAnswer(true);
       setScore((prev) => prev + 1);
-      target?.classList.add("btn-right");
     } else {
       setRightAnswer(false);
-      target?.classList.add("btn-wrong");
     }
+    setProgress((prev) => prev + 1);
+  };
+
+  const nextQuestion = () => {
+    if (currentWord < 9) {
+      setCurrentWord((prev) => prev + 1);
+      setRightAnswer();
+    }
+  };
+
+  const toRank = () => {
+    localStorage.setItem("score", score);
+    navigate("/rank");
   };
 
   return (
     <>
       {words && !loading && (
         <div className="paper">
+          <div
+            className="progress-bar"
+            style={{ width: `${(progress / 10) * 100}%` }}
+          ></div>
           <h2>Practice</h2>
 
-          <p className="word">{words[currentWord]?.word}</p>
+          <p className="word">
+            {currentWord + 1}- {words[currentWord]?.word}
+          </p>
 
           <p
             className="txt-right"
@@ -79,7 +99,15 @@ const Practice = () => {
           </div>
 
           <div className="div-next">
-            {typeof rightAnswer === "boolean" && <button>Next Question</button>}
+            {typeof rightAnswer === "boolean" && currentWord !== 9 && (
+              <button onClick={nextQuestion}>Next Question</button>
+            )}
+          </div>
+
+          <div className="div-next">
+            {rightAnswer !== undefined && currentWord === 9 && (
+              <button onClick={toRank}>Show Rank</button>
+            )}
           </div>
         </div>
       )}

@@ -40,16 +40,6 @@ button {
   height: 30%;
 }
 
-.btn-right {
-  background-color: green;
-  color: #fff;
-}
-
-.btn-wrong {
-  background-color: red;
-  color: #fff;
-}
-
 .txt-right {
   color: green;
   font-weight: 500;
@@ -67,4 +57,9 @@ button {
 .div-next {
   display: flex;
   justify-content: center;
+}
+
+.progress-bar {
+  background-color: darkblue;
+  height: 10px;
 }
