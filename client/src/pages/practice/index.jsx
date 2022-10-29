@@ -35,7 +35,7 @@ const Practice = () => {
   }, [getWords]);
 
   // go to rank page and set score
-  const toRank = () => {
+  const toRank = (score) => {
     localStorage.setItem("score", score);
     navigate("/rank");
   };
@@ -44,13 +44,14 @@ const Practice = () => {
   const answerQuestion = ({ target }) => {
     if (target?.name === words[currentWord]?.pos) {
       setRightAnswer(true);
-      setScore((prev) => prev + 1);
+      progress === 9
+        ? setTimeout(() => toRank(score + 1), 2000)
+        : setScore((prev) => prev + 1);
     } else {
       setRightAnswer(false);
+      progress === 9 && setTimeout(() => toRank(score), 2000);
     }
     setProgress((prev) => prev + 1);
-
-    progress === 9 && setTimeout(toRank, 2000);
   };
 
   // go to next question
