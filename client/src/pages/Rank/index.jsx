@@ -8,15 +8,14 @@ const Rank = () => {
   const [rank, setRank] = useState();
   const [loading, setLoading] = useState(false);
 
+  // submit score & get rank
   const getRank = useCallback(async () => {
     try {
       setLoading(true);
       const score = localStorage.getItem("score");
-      console.log(score);
 
       if (score) {
         const data = await submitScoreService({ score: score * 10 });
-        console.log(data);
         setRank(data);
       } else {
         navigate && navigate("/");
@@ -41,7 +40,11 @@ const Rank = () => {
       {rank && (
         <div className="main">
           <p
+            className="rank"
             style={{
+              // change rank color according to rank
+              // gets more green as it increases more red as it decreases
+
               color: `rgba(${255 - (rank * 255) / 100}, ${
                 (255 * rank) / 100
               }, 0)`,

@@ -9,6 +9,8 @@ const wordPos = ["verb", "adverb", "noun", "adjective"];
 
 const Practice = () => {
   const navigate = useNavigate();
+
+  // states
   const [words, setWords] = useState();
   const [score, setScore] = useState(0);
   const [rightAnswer, setRightAnswer] = useState();
@@ -16,6 +18,7 @@ const Practice = () => {
   const [currentWord, setCurrentWord] = useState(0);
   const [progress, setProgress] = useState(0);
 
+  // get words list
   const getWords = useCallback(async () => {
     try {
       setLoading(true);
@@ -31,11 +34,13 @@ const Practice = () => {
     getWords && getWords();
   }, [getWords]);
 
+  // go to rank page and set score
   const toRank = () => {
     localStorage.setItem("score", score);
     navigate("/rank");
   };
 
+  // select an answer, calculate score & call toRank after 2 sec.
   const answerQuestion = ({ target }) => {
     if (target?.name === words[currentWord]?.pos) {
       setRightAnswer(true);
@@ -48,6 +53,7 @@ const Practice = () => {
     progress === 9 && setTimeout(toRank, 2000);
   };
 
+  // go to next question
   const nextQuestion = () => {
     if (currentWord < 9) {
       setCurrentWord((prev) => prev + 1);
@@ -63,6 +69,7 @@ const Practice = () => {
             className="progress-bar"
             style={{ width: `${(progress / 10) * 100}%` }}
           ></div>
+
           <h2>Practice</h2>
 
           <p className="word">
@@ -87,6 +94,7 @@ const Practice = () => {
           </p>
 
           <p>Choose this word part of speech:</p>
+
           <div className="btns-div">
             {wordPos?.map((e, i) => (
               <button
